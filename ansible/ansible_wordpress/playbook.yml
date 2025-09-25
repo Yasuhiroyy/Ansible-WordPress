@@ -1,0 +1,19 @@
+
+---
+- name: Setup users
+  hosts: all
+  vars_files:
+    - ./.env.yml
+  roles:
+    - users
+ 
+- name: Setup Wordpress
+  hosts: wp_servers
+  vars_files:
+    - ./.env.yml
+  roles:
+    - nginx
+    - php
+    - mysql
+    - wordpress
+    - db-backup
