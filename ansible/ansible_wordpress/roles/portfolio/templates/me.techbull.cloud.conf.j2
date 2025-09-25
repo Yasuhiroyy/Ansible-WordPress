@@ -1,0 +1,20 @@
+server {
+    listen 80;
+    server_name {{ inventory_hostname }}; 
+    return 301 https://$host$request_uri;
+    
+}
+
+server {
+    listen 443 ssl;
+    server_name {{ inventory_hostname }};
+
+    root /var/www/me.techbull.cloud;
+    index index.html;
+
+    ssl_certificate     /etc/nginx/ssl/me.techbull.cloud.pem;
+    ssl_certificate_key /etc/nginx/ssl/me.techbull.cloud-key.pem;
+
+    access_log /var/log/nginx/me.techbull.cloud.access.log;
+    error_log /var/log/nginx/me.techbull.cloud.error.log;
+}

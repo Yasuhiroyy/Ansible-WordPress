@@ -7,8 +7,18 @@
   roles:
     - users
  
+- name: Setup Portfolio
+  hosts: me.techbull.cloud
+  vars_files:
+    - ./.env.yml
+  roles:
+    - nginx
+    - portfolio
+
+
+
 - name: Setup Wordpress
-  hosts: wp_servers
+  hosts: wp.techbull.cloud
   vars_files:
     - ./.env.yml
   roles:

@@ -1,0 +1,25 @@
+- name: Create the document root directory for the virtual host
+  file:
+    path: "/var/www/me.techbull.cloud"
+    state: directory
+    owner: www-data
+    group: www-data
+    mode: '0755'
+ 
+- name: Copy portfolio HTML
+  copy:
+    src: index.html
+    dest: /var/www/me.techbull.cloud/index.html
+    owner: www-data
+    group: www-data
+    mode: '0644'
+
+- name: Copy portfolio CSS
+  copy:
+    src: style.css
+    dest: /var/www/me.techbull.cloud/style.css
+    owner: www-data
+    group: www-data
+    mode: '0644'
+
+

@@ -1,0 +1,8 @@
+---
+new_users:
+  menta:
+    comment: "Add menta"
+    name: menta
+    password: "{{ lookup('env', 'MENTA_MYSQL_PASSWORD') }}"
+    host: localhost
+    priv: "wordpress.*:ALL"

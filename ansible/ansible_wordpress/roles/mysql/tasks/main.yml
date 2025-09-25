@@ -1,0 +1,57 @@
+- name: Install MySQL 8.0
+  apt:
+    name: mysql-server
+    state: present
+    update_cache: yes
+ 
+- name: Install PyMySQL for MySQL support
+  apt:
+    name: python3-pymysql
+    state: present
+ 
+- name: Copy MySQL custom config for utf8mb4
+  copy:
+    src: mysqld_custom.cnf
+    dest: /etc/mysql/mysql.conf.d/mysqld_custom.cnf
+    owner: root
+    group: root
+    mode: '0644'
+  notify: Restart MySQL
+ 
+- name: Wait for MySQL socket to be ready
+  wait_for:
+    path: /var/run/mysqld/mysqld.sock
+    state: present
+    timeout: 30
+ 
+- name: Create WordPress database
+  mysql_db:
+    name: wordpress_db
+    encoding: utf8mb4
+    collation: utf8mb4_unicode_ci
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+- name: Create MySQL user for WordPress
+  mysql_user:
+    name: menta
+    password: "{{ menta_mysql_password }}"
+    host: localhost
+    priv: "wordpress_db.*:ALL"
+    state: present
+    login_user: root
+    login_password: "{{ mysql_root_password }}"
+    login_unix_socket: /var/run/mysqld/mysqld.sock
+
+    
+ #　OSの root ユーザーが、MySQLの root ユーザーに接続できるようにしている
+- name: Copy MySQL root client config
+  template:
+    src: root_my.cnf.j2
+    dest: /root/.my.cnf
+    owner: root
+    group: root
+    mode: '0600'
+    
