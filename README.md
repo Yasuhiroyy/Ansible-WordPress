@@ -19,3 +19,4 @@
 ・CMS：WordPress
 ### ゲストOS
 ・Ubuntu 22.04（Multipass上で構築）
+
